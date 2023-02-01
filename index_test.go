@@ -4,11 +4,12 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"reflect"
+	"runtime"
 	"testing"
 	"time"
 
-	"github.com/bmizerany/assert"
-	"github.com/mathetake/gann/metric"
+	"github.com/chikamim/gann/metric"
 )
 
 func init() {
@@ -60,9 +61,25 @@ func TestCreateNewIndex(t *testing.T) {
 				t.Fatal("type assertion failed")
 			}
 
-			assert.Equal(t, c.nTree, len(rawIdx.roots))
-			assert.Equal(t, true, len(rawIdx.nodeIDToNode) > c.nTree)
+			assertequal(t, c.nTree, len(rawIdx.roots))
+			assertequal(t, true, len(rawIdx.nodeIDToNode) > c.nTree)
 		})
 	}
 
+}
+
+func assertequal(t *testing.T, exp, got interface{}) {
+	fn := func() {
+	}
+	result := reflect.DeepEqual(exp, got)
+	assert(t, result, fn, 1+1)
+}
+
+func assert(t *testing.T, result bool, f func(), cd int) {
+	if !result {
+		_, file, line, _ := runtime.Caller(cd + 1)
+		t.Errorf("%s:%d", file, line)
+		f()
+		t.FailNow()
+	}
 }

@@ -1,7 +1,7 @@
 # gann
 [![CircleCI](https://circleci.com/gh/mathetake/gann.svg?style=shield&circle-token=9a6608c5baa7a400661a700127778a9ff8baeee3)](https://circleci.com/gh/mathetake/gann)
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
-[![](https://godoc.org/github.com/mathetake/gann?status.svg)](http://godoc.org/github.com/mathetake/gann)
+[![](https://godoc.org/github.com/chikamim/gann?status.svg)](http://godoc.org/github.com/chikamim/gann)
 
 <img width="600" alt="portfolio_view" src="https://mathetake.github.io/blogs/assets/gann/recursive_build.png">
 
@@ -16,7 +16,7 @@ The implemented algorithm is truly inspired by Annoy (https://github.com/spotify
 ## installation
 
 ```
-go get github.com/mathetake/gann
+go get github.com/chikamim/gann
 ```
 
 ## parameters
@@ -37,10 +37,10 @@ go get github.com/mathetake/gann
 | bucketScale | float64 | affects the size of `bucket` | the larger, the more expensive | the larger, the more accurate |
 
 `bucketScale` affects the size of `bucket` which consists of items for exact distance calculation. 
-The actual size of the bucket is [calculated by](https://github.com/mathetake/gann/blob/357c3abd241bd6455e895a5b392251b06507a8e8/search.go#L30) `int(searchNum * bucketScale)`.
+The actual size of the bucket is [calculated by](https://github.com/chikamim/gann/blob/357c3abd241bd6455e895a5b392251b06507a8e8/search.go#L30) `int(searchNum * bucketScale)`.
 
-In the search phase, we traverse index trees and continuously put items on reached leaves to the bucket [until the bucket becomes full](https://github.com/mathetake/gann/blob/357c3abd241bd6455e895a5b392251b06507a8e8/search.go#L48).
-Then we [calculate the exact distances between a item in the bucket and the query vector](https://github.com/mathetake/gann/blob/357c3abd241bd6455e895a5b392251b06507a8e8/search.go#L74-L81) to get approximate nearest neighbors.
+In the search phase, we traverse index trees and continuously put items on reached leaves to the bucket [until the bucket becomes full](https://github.com/chikamim/gann/blob/357c3abd241bd6455e895a5b392251b06507a8e8/search.go#L48).
+Then we [calculate the exact distances between a item in the bucket and the query vector](https://github.com/chikamim/gann/blob/357c3abd241bd6455e895a5b392251b06507a8e8/search.go#L74-L81) to get approximate nearest neighbors.
 
 Therefore, the larger `bucketScale`, the more computational complexity while the more accurate result to be produced.
 
@@ -54,8 +54,8 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/mathetake/gann"
-	"github.com/mathetake/gann/metric"
+	"github.com/chikamim/gann"
+	"github.com/chikamim/gann/metric"
 )
 
 var (

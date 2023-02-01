@@ -5,8 +5,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/bmizerany/assert"
-	"github.com/mathetake/gann/metric"
+	"github.com/chikamim/gann/metric"
 )
 
 func TestNodeBuild(t *testing.T) {
@@ -65,10 +64,10 @@ func TestNodeBuild(t *testing.T) {
 			n.build(c.items)
 
 			if c.expLeaf {
-				assert.Equal(t, true, len(n.leaf) > 0)
+				assertequal(t, true, len(n.leaf) > 0)
 			} else {
-				assert.Equal(t, true, len(n.leaf) == 0)
-				assert.Equal(t, true, len(n.children) > 0)
+				assertequal(t, true, len(n.leaf) == 0)
+				assertequal(t, true, len(n.children) > 0)
 			}
 		})
 	}

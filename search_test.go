@@ -7,7 +7,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/mathetake/gann/metric"
+	"github.com/chikamim/gann/metric"
 )
 
 func TestIndex_GetANNbyItemID(t *testing.T) {

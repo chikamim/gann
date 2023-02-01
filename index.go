@@ -3,8 +3,8 @@ package gann
 import (
 	"sync"
 
+	"github.com/chikamim/gann/metric"
 	"github.com/google/uuid"
-	"github.com/mathetake/gann/metric"
 )
 
 // Index is the interface of gann's search index. GetANNbyItemID and GetANNbyVector are different in the form of query.
@@ -52,7 +52,7 @@ type index struct {
 // the index (see README.md for details.)
 //
 // The last argument m is type of metric.Metric and represents the metric of the target search space.
-// See https://godoc.org/github.com/mathetake/gann/metric for details.
+// See https://godoc.org/github.com/chikamim/gann/metric for details.
 func CreateNewIndex(rawItems [][]float32, dim, nTree, k int, m metric.Metric) (Index, error) {
 	// verify that given items have same dimension
 	for _, it := range rawItems {

@@ -1,6 +1,6 @@
 package gann
 
-import "github.com/pkg/errors"
+import "errors"
 
 var (
 	errDimensionMismatch         = errors.New("dimension mismatch")

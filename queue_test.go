@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"math"
 	"testing"
-
-	"github.com/bmizerany/assert"
 )
 
 func TestPriorityQueue(t *testing.T) {
@@ -53,7 +51,7 @@ func TestPriorityQueue(t *testing.T) {
 
 			for _, v := range c.expValues {
 				qi := heap.Pop(&pq).(*queueItem)
-				assert.Equal(t, qi.value, v)
+				assertequal(t, qi.value, v)
 			}
 		})
 	}
