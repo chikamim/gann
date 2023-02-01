@@ -20,7 +20,7 @@ type node struct {
 	id nodeId
 
 	// the normal vector of the hyper plane which splits the space, represented by the node
-	vec []float64
+	vec []float32
 
 	// children of node. If len equals 0, then it is leaf node.
 	children map[direction]*node
@@ -42,7 +42,7 @@ func (n *node) build(its []*item) {
 
 func (n *node) buildChildren(its []*item) {
 	dItems := map[direction][]*item{}
-	dVectors := map[direction][][]float64{}
+	dVectors := map[direction][][]float32{}
 	for _, it := range its {
 		if n.idxPtr.metric.CalcDirectionPriority(n.vec, it.vector) < 0 {
 			dItems[left] = append(dItems[left], it)

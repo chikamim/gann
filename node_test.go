@@ -11,30 +11,30 @@ import (
 
 func TestNodeBuild(t *testing.T) {
 	for i, c := range []struct {
-		vec     []float64
+		vec     []float32
 		items   []*item
 		dim, k  int
 		expLeaf bool
 	}{
 		{
-			vec: []float64{0.0, 1.0},
+			vec: []float32{0.0, 1.0},
 			items: []*item{
-				{id: 0, vector: []float64{0.0, 1.0}},
-				{id: 1, vector: []float64{0.0, -1.0}},
+				{id: 0, vector: []float32{0.0, 1.0}},
+				{id: 1, vector: []float32{0.0, -1.0}},
 			},
 			k:       2,
 			dim:     2,
 			expLeaf: true,
 		},
 		{
-			vec: []float64{0.0, 1.0},
+			vec: []float32{0.0, 1.0},
 			items: []*item{
-				{id: 0, vector: []float64{0.0, 1.0}},
-				{id: 0, vector: []float64{0.0, 1.1}},
-				{id: 0, vector: []float64{0.0, 1.2}},
-				{id: 1, vector: []float64{0.0, -1.0}},
-				{id: 2, vector: []float64{0.0, -1.1}},
-				{id: 2, vector: []float64{0.0, -1.2}},
+				{id: 0, vector: []float32{0.0, 1.0}},
+				{id: 0, vector: []float32{0.0, 1.1}},
+				{id: 0, vector: []float32{0.0, 1.2}},
+				{id: 1, vector: []float32{0.0, -1.0}},
+				{id: 2, vector: []float32{0.0, -1.1}},
+				{id: 2, vector: []float32{0.0, -1.2}},
 			},
 			k:       2,
 			dim:     2,

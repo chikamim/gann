@@ -28,15 +28,15 @@ func NewCosineMetric(dim int) (Metric, error) {
 	}, nil
 }
 
-func (c *cosineDistance) CalcDistance(v1, v2 []float64) float64 {
-	var ret float64
+func (c *cosineDistance) CalcDistance(v1, v2 []float32) float32 {
+	var ret float32
 	for i := range v1 {
 		ret += v1[i] * v2[i]
 	}
 	return -ret
 }
 
-func (c *cosineDistance) GetSplittingVector(vs [][]float64) []float64 {
+func (c *cosineDistance) GetSplittingVector(vs [][]float32) []float32 {
 	lvs := len(vs)
 	// init centroids
 	k := rand.Intn(lvs)
@@ -48,7 +48,7 @@ func (c *cosineDistance) GetSplittingVector(vs [][]float64) []float64 {
 	c1 := vs[l]
 
 	for i := 0; i < cosineMetricsMaxIteration; i++ {
-		clusterToVecs := map[int][][]float64{}
+		clusterToVecs := map[int][][]float32{}
 
 		iter := cosineMetricsMaxTargetSample
 		if len(vs) < cosineMetricsMaxTargetSample {
@@ -85,24 +85,24 @@ func (c *cosineDistance) GetSplittingVector(vs [][]float64) []float64 {
 			continue
 		}
 
-		c0 = make([]float64, c.dim)
+		c0 = make([]float32, c.dim)
 		it0 := int(float64(lvs) * cosineMetricsCentroidCalcRatio)
 		for i := 0; i < it0; i++ {
 			for d := 0; d < c.dim; d++ {
-				c0[d] += clusterToVecs[0][rand.Intn(lc0)][d] / float64(it0)
+				c0[d] += float32(clusterToVecs[0][rand.Intn(lc0)][d]) / float32(it0)
 			}
 		}
 
-		c1 = make([]float64, c.dim)
+		c1 = make([]float32, c.dim)
 		it1 := int(float64(lvs)*cosineMetricsCentroidCalcRatio + 1)
 		for i := 0; i < int(float64(lc1)*cosineMetricsCentroidCalcRatio+1); i++ {
 			for d := 0; d < c.dim; d++ {
-				c1[d] += clusterToVecs[1][rand.Intn(lc1)][d] / float64(it1)
+				c1[d] += float32(clusterToVecs[1][rand.Intn(lc1)][d]) / float32(it1)
 			}
 		}
 	}
 
-	ret := make([]float64, c.dim)
+	ret := make([]float32, c.dim)
 	for d := 0; d < c.dim; d++ {
 		v := c0[d] - c1[d]
 		ret[d] += v
@@ -110,8 +110,8 @@ func (c *cosineDistance) GetSplittingVector(vs [][]float64) []float64 {
 	return ret
 }
 
-func (c *cosineDistance) CalcDirectionPriority(base, target []float64) float64 {
-	var ret float64
+func (c *cosineDistance) CalcDirectionPriority(base, target []float32) float32 {
+	var ret float32
 	for i := range base {
 		ret += base[i] * target[i]
 	}

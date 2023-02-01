@@ -20,7 +20,7 @@ type Index interface {
 	GetANNbyItemID(id int64, searchNum int, bucketScale float64) (ann []int64, err error)
 
 	// GetANNbyVector ... search approximate nearest neighbors by a given query vector
-	GetANNbyVector(v []float64, searchNum int, bucketScale float64) (ann []int64, err error)
+	GetANNbyVector(v []float32, searchNum int, bucketScale float64) (ann []int64, err error)
 }
 
 type index struct {
@@ -53,7 +53,7 @@ type index struct {
 //
 // The last argument m is type of metric.Metric and represents the metric of the target search space.
 // See https://godoc.org/github.com/mathetake/gann/metric for details.
-func CreateNewIndex(rawItems [][]float64, dim, nTree, k int, m metric.Metric) (Index, error) {
+func CreateNewIndex(rawItems [][]float32, dim, nTree, k int, m metric.Metric) (Index, error) {
 	// verify that given items have same dimension
 	for _, it := range rawItems {
 		if len(it) != dim {
@@ -87,7 +87,7 @@ func CreateNewIndex(rawItems [][]float64, dim, nTree, k int, m metric.Metric) (I
 }
 
 func (idx *index) build(items []*item, nTree int) {
-	vs := make([][]float64, len(idx.itemIDToItem))
+	vs := make([][]float32, len(idx.itemIDToItem))
 	for i, it := range items {
 		vs[i] = it.vector
 	}

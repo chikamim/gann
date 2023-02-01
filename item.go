@@ -4,5 +4,5 @@ type itemId int64
 
 type item struct {
 	id     itemId
-	vector []float64
+	vector []float32
 }

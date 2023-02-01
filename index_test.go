@@ -26,18 +26,18 @@ func TestCreateNewIndex(t *testing.T) {
 	} {
 		c := c
 		t.Run(fmt.Sprintf("%d-th case", i), func(t *testing.T) {
-			rawItems := make([][]float64, c.num)
+			rawItems := make([][]float32, c.num)
 			for i := range rawItems {
-				v := make([]float64, c.dim)
+				v := make([]float32, c.dim)
 
-				var norm float64
+				var norm float32
 				for j := range v {
-					cof := rand.Float64() - 0.5
+					cof := float32(rand.Float64() - 0.5)
 					v[j] = cof
 					norm += cof * cof
 				}
 
-				norm = math.Sqrt(norm)
+				norm = float32(math.Sqrt(float64(norm)))
 				for j := range v {
 					v[j] /= norm
 				}

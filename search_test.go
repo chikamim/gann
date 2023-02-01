@@ -20,18 +20,18 @@ func TestIndex_GetANNbyItemID(t *testing.T) {
 	} {
 		c := c
 		t.Run(fmt.Sprintf("%d-th case", i), func(t *testing.T) {
-			rawItems := make([][]float64, c.num)
+			rawItems := make([][]float32, c.num)
 			for i := range rawItems {
-				v := make([]float64, c.dim)
+				v := make([]float32, c.dim)
 
-				var norm float64
+				var norm float32
 				for j := range v {
-					cof := rand.Float64() - 0.5
+					cof := float32(rand.Float64() - 0.5)
 					v[j] = cof
 					norm += cof * cof
 				}
 
-				norm = math.Sqrt(norm)
+				norm = float32(math.Sqrt(float64(norm)))
 				for j := range v {
 					v[j] /= norm
 				}
@@ -66,18 +66,18 @@ func TestIndex_GetANNbyVector(t *testing.T) {
 	} {
 		c := c
 		t.Run(fmt.Sprintf("%d-th case", i), func(t *testing.T) {
-			rawItems := make([][]float64, c.num)
+			rawItems := make([][]float32, c.num)
 			for i := range rawItems {
-				v := make([]float64, c.dim)
+				v := make([]float32, c.dim)
 
-				var norm float64
+				var norm float32
 				for j := range v {
-					cof := rand.Float64() - 0.5
+					cof := float32(rand.Float64() - 0.5)
 					v[j] = cof
 					norm += cof * cof
 				}
 
-				norm = math.Sqrt(norm)
+				norm = float32(math.Sqrt(float64(norm)))
 				for j := range v {
 					v[j] /= norm
 				}
@@ -95,9 +95,9 @@ func TestIndex_GetANNbyVector(t *testing.T) {
 				t.Fatal(err)
 			}
 
-			key := make([]float64, c.dim)
+			key := make([]float32, c.dim)
 			for i := range key {
-				key[i] = rand.Float64() - 0.5
+				key[i] = float32(rand.Float64() - 0.5)
 			}
 
 			if _, err = idx.GetANNbyVector(key, 10, 2); err != nil {
@@ -137,18 +137,18 @@ func TestAnnSearchAccuracy(t *testing.T) {
 	} {
 		c := c
 		t.Run(fmt.Sprintf("%d-th case", i), func(t *testing.T) {
-			rawItems := make([][]float64, c.num)
+			rawItems := make([][]float32, c.num)
 			for i := range rawItems {
-				v := make([]float64, c.dim)
+				v := make([]float32, c.dim)
 
-				var norm float64
+				var norm float32
 				for j := range v {
-					cof := rand.Float64() - 0.5
+					cof := float32(rand.Float64() - 0.5)
 					v[j] = cof
 					norm += cof * cof
 				}
 
-				norm = math.Sqrt(norm)
+				norm = float32(math.Sqrt(float64(norm)))
 				for j := range v {
 					v[j] /= norm
 				}
@@ -172,11 +172,11 @@ func TestAnnSearchAccuracy(t *testing.T) {
 			}
 
 			// query vector
-			query := make([]float64, c.dim)
+			query := make([]float32, c.dim)
 			query[0] = 0.1
 
 			// exact neighbors
-			aDist := map[int64]float64{}
+			aDist := map[int64]float32{}
 			ids := make([]int64, len(rawItems))
 			for i, v := range rawItems {
 				ids[i] = int64(i)

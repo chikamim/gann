@@ -14,7 +14,7 @@ func (idx *index) GetANNbyItemID(id int64, searchNum int, bucketScale float64) (
 	return idx.GetANNbyVector(it.vector, searchNum, bucketScale)
 }
 
-func (idx *index) GetANNbyVector(v []float64, searchNum int, bucketScale float64) ([]int64, error) {
+func (idx *index) GetANNbyVector(v []float32, searchNum int, bucketScale float64) ([]int64, error) {
 	/*
 		1. insert root nodes into the priority queue
 		2. search all trees until len(`ann`) is enough.
@@ -63,16 +63,16 @@ func (idx *index) GetANNbyVector(v []float64, searchNum int, bucketScale float64
 		dp := idx.metric.CalcDirectionPriority(n.vec, v)
 		heap.Push(&pq, &queueItem{
 			value:    n.children[left].id,
-			priority: max(d, dp),
+			priority: max(d, float64(dp)),
 		})
 		heap.Push(&pq, &queueItem{
 			value:    n.children[right].id,
-			priority: max(d, -dp),
+			priority: max(d, float64(-dp)),
 		})
 	}
 
 	// 3.
-	idToDist := make(map[int64]float64, len(annMap))
+	idToDist := make(map[int64]float32, len(annMap))
 	ann := make([]int64, 0, len(annMap))
 	for id := range annMap {
 		iid := int64(id)

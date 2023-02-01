@@ -23,18 +23,18 @@ go get github.com/mathetake/gann
 
 ### setup phase parameters
 
-|name|type|description|run-time complexity|space complexity|accuracy|
-|:---:|:---:|:---:|:---:|:---:|:---:|
-|dim|int| dimension of target vectors| the larger, the more expensive | the larger, the more expensive |  N/A |
-|nTree|int| # of trees|the larger, the more expensive| the larger, the more expensive | the larger, the more accurate|
-|k|int|maximum # of items in a single leaf|the larger, the less expensive| N/A| the larger, the less accurate|
+| name  | type  |             description             |      run-time complexity       |        space complexity        |           accuracy            |
+| :---: | :---: | :---------------------------------: | :----------------------------: | :----------------------------: | :---------------------------: |
+|  dim  |  int  |     dimension of target vectors     | the larger, the more expensive | the larger, the more expensive |              N/A              |
+| nTree |  int  |             # of trees              | the larger, the more expensive | the larger, the more expensive | the larger, the more accurate |
+|   k   |  int  | maximum # of items in a single leaf | the larger, the less expensive |              N/A               | the larger, the less accurate |
 
 ### runtime (search phase) parameters
 
-|name|type|description|time complexity|accuracy|
-|:---:|:---:|:---:|:---:|:---:|
-|searchNum|int| # of requested neighbors|the larger, the more expensive|N/A|
-|bucketScale|float64| affects the size of `bucket` |the larger, the more expensive|the larger, the more accurate|
+|    name     |  type   |         description          |        time complexity         |           accuracy            |
+| :---------: | :-----: | :--------------------------: | :----------------------------: | :---------------------------: |
+|  searchNum  |   int   |   # of requested neighbors   | the larger, the more expensive |              N/A              |
+| bucketScale | float64 | affects the size of `bucket` | the larger, the more expensive | the larger, the more accurate |
 
 `bucketScale` affects the size of `bucket` which consists of items for exact distance calculation. 
 The actual size of the bucket is [calculated by](https://github.com/mathetake/gann/blob/357c3abd241bd6455e895a5b392251b06507a8e8/search.go#L30) `int(searchNum * bucketScale)`.
@@ -66,11 +66,11 @@ var (
 )
 
 func main() {
-	rawItems := make([][]float64, 0, nItem)
+	rawItems := make([][]float32, 0, nItem)
 	rand.Seed(time.Now().UnixNano())
 
 	for i := 0; i < nItem; i++ {
-		item := make([]float64, 0, dim)
+		item := make([]float32, 0, dim)
 		for j := 0; j < dim; j++ {
 			item = append(item, rand.Float64())
 		}
@@ -93,7 +93,7 @@ func main() {
 	// search
 	var searchNum = 5
 	var bucketScale float64 = 10
-	q := []float64{0.1, 0.02, 0.001}
+	q := []float32{0.1, 0.02, 0.001}
 	res, err := idx.GetANNbyVector(q, searchNum, bucketScale)
 	if err != nil {
 		// error handling

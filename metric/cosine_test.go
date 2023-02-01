@@ -4,25 +4,23 @@ import (
 	"fmt"
 	"math/rand"
 	"testing"
-
-	"github.com/bmizerany/assert"
 )
 
 func TestCosineDistance_CalcDirectionPriority(t *testing.T) {
 	for i, c := range []struct {
-		v1, v2 []float64
-		exp    float64
+		v1, v2 []float32
+		exp    float32
 		dim    int
 	}{
 		{
-			v1:  []float64{1.2, 0.1},
-			v2:  []float64{-1.2, 0.2},
+			v1:  []float32{1.2, 0.1},
+			v2:  []float32{-1.2, 0.2},
 			dim: 2,
 			exp: -1.42,
 		},
 		{
-			v1:  []float64{1.2, 0.1, 0, 0, 0, 0, 0, 0, 0, 0},
-			v2:  []float64{-1.2, 0.2, 0, 0, 0, 0, 0, 0, 0, 0},
+			v1:  []float32{1.2, 0.1, 0, 0, 0, 0, 0, 0, 0, 0},
+			v2:  []float32{-1.2, 0.2, 0, 0, 0, 0, 0, 0, 0, 0},
 			dim: 10,
 			exp: -1.42,
 		},
@@ -31,7 +29,7 @@ func TestCosineDistance_CalcDirectionPriority(t *testing.T) {
 		t.Run(fmt.Sprintf("%d-th case", i), func(t *testing.T) {
 			cosine := &cosineDistance{dim: c.dim}
 			actual := cosine.CalcDirectionPriority(c.v1, c.v2)
-			assert.Equal(t, c.exp, actual)
+			assertfloats(t, c.exp, actual)
 		})
 	}
 }
@@ -47,11 +45,11 @@ func TestCosineDistance_GetSplittingVector(t *testing.T) {
 		c := c
 		t.Run(fmt.Sprintf("%d-th case", i), func(t *testing.T) {
 			cosine := &cosineDistance{dim: c.dim}
-			vs := make([][]float64, c.num)
+			vs := make([][]float32, c.num)
 			for i := 0; i < c.num; i++ {
-				v := make([]float64, c.dim)
+				v := make([]float32, c.dim)
 				for d := 0; d < c.dim; d++ {
-					v[d] = rand.Float64()
+					v[d] = float32(rand.Float64())
 				}
 				vs[i] = v
 			}
@@ -63,19 +61,19 @@ func TestCosineDistance_GetSplittingVector(t *testing.T) {
 
 func TestCosineDistance_CalcDistance(t *testing.T) {
 	for i, c := range []struct {
-		v1, v2 []float64
-		exp    float64
+		v1, v2 []float32
+		exp    float32
 		dim    int
 	}{
 		{
-			v1:  []float64{1.2, 0.1},
-			v2:  []float64{-1.2, 0.2},
+			v1:  []float32{1.2, 0.1},
+			v2:  []float32{-1.2, 0.2},
 			dim: 2,
 			exp: 1.42,
 		},
 		{
-			v1:  []float64{1.2, 0.1, 0, 0, 0, 0, 0, 0, 0, 0},
-			v2:  []float64{-1.2, 0.2, 0, 0, 0, 0, 0, 0, 0, 0},
+			v1:  []float32{1.2, 0.1, 0, 0, 0, 0, 0, 0, 0, 0},
+			v2:  []float32{-1.2, 0.2, 0, 0, 0, 0, 0, 0, 0, 0},
 			dim: 10,
 			exp: 1.42,
 		},
@@ -84,7 +82,14 @@ func TestCosineDistance_CalcDistance(t *testing.T) {
 		t.Run(fmt.Sprintf("%d-th case", i), func(t *testing.T) {
 			cosine := &cosineDistance{dim: c.dim}
 			actual := cosine.CalcDistance(c.v1, c.v2)
-			assert.Equal(t, c.exp, actual)
+			assertfloats(t, c.exp, actual)
 		})
+	}
+}
+
+func assertfloats(t *testing.T, expected, actual float32) {
+	delta := float32(0.0001)
+	if expected-actual > delta || actual-expected > delta {
+		t.FailNow()
 	}
 }
